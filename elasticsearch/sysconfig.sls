@@ -23,7 +23,7 @@ include:
 {% endif %}
 
 
-Config java heap:
+Config java heap min:
   file.replace:
     - name: /etc/elasticsearch/jvm.options
     - pattern: ^-Xms.*$
@@ -31,6 +31,8 @@ Config java heap:
     - prepend_if_not_found: true
     - watch_in:
       - service: elasticsearch
+
+Config java heap max:
   file.replace:
     - name: /etc/elasticsearch/jvm.options
     - pattern: ^-Xmx.*$
