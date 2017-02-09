@@ -23,15 +23,17 @@ include:
 {% endif %}
 
 
-/etc/elasticsearch/jvm.options:
+Config java heap:
   file.replace:
+    - name: /etc/elasticsearch/jvm.options
     - pattern: ^-Xms.*$
     - repl: -Xms{{ salt['pillar.get']('elasticsearch:jvm_heapsize', "2g") }}
     - prepend_if_not_found: true
     - watch_in:
       - service: elasticsearch
   file.replace:
-    - pattern: ^-Xms.*$
+    - name: /etc/elasticsearch/jvm.options
+    - pattern: ^-Xmx.*$
     - repl: -Xmx{{ salt['pillar.get']('elasticsearch:jvm_heapsize', "2g") }}
     - prepend_if_not_found: true
     - watch_in:
