@@ -11,9 +11,7 @@ elasticsearch:
   sysconfig:
     ES_STARTUP_SLEEP_TIME: 5
     MAX_OPEN_FILES: 65535
-  jvm_options:
-    - -Xms256m
-    - -Xmx256m
+  jvm_heapsize: 256m
   plugins:
     # https://www.elastic.co/blog/running-site-plugins-with-elasticsearch-5-0
     discovery-ec2: discovery-ec2

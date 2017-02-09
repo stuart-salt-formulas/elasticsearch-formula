@@ -26,11 +26,11 @@ elasticsearch_cfg:
 {% endif %}
 {% endfor %}
 
-{%- if salt['pillar.get']('elasticsearch:jvm_options') %}
+
 /etc/elasticsearch/jvm.options:
-  file.serialize:
-    - dataset_pillar: elasticsearch:jvm_options
-    - user: elasticsearch
-    - group: elasticsearch
-    - mode: 0640
-{%- endif %}
+  file.replace:
+    - pattern: ^-Xms.*$
+    - repl: -Xms{{ salt['pillar.get']('elasticsearch:jvm_heapsize', "2g") }}
+    - prepend_if_not_found: true
+    - watch_in:
+      - service: elasticsearch
