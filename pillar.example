@@ -1,24 +1,19 @@
 elasticsearch:
-  major_version: 2
-  java_home: /usr/bin/java
+  major_version: 5
   config:
-    cluster.name: my-application
-    node.name: node2
-    node.rack: r2
-    path.data: /srv/data
-    path.logs: /srv/logs
+    cluster.name: salt-test
+    node.name: {{ grains['host'] }}
+    path.data: /disk1/elasticsearch/data
+    path.logs: /disk1/elasticsearch/logs
     bootstrap.mlockall: true
-    network.host: 127.0.0.1
+    network.host: 0.0.0.0
     http.port: 9200
-    discovery.zen.ping.unicast.hosts: ["host1", "host2"]
-    discovery.zen.minimum_master_nodes: 3
-    gateway.recover_after_nodes: 3
-    node.max_local_storage_nodes: 1
-    action.destructive_requires_name: true
   sysconfig:
     ES_STARTUP_SLEEP_TIME: 5
-    ES_HEAP_SIZE: 8g
     MAX_OPEN_FILES: 65535
+  jvm_options:
+    - -Xms256m
+    - -Xmx256m
   plugins:
-    lang-python: lang-python
-    kopf: lmenezes/elasticsearch-kopf
+    # https://www.elastic.co/blog/running-site-plugins-with-elasticsearch-5-0
+    discovery-ec2: discovery-ec2
