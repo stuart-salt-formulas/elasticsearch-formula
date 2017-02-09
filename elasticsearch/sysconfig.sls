@@ -21,3 +21,18 @@ include:
     - context:
         sysconfig: {{ salt['pillar.get']('elasticsearch:sysconfig') }}
 {% endif %}
+
+
+/etc/elasticsearch/jvm.options:
+  file.replace:
+    - pattern: ^-Xms.*$
+    - repl: -Xms{{ salt['pillar.get']('elasticsearch:jvm_heapsize', "2g") }}
+    - prepend_if_not_found: true
+    - watch_in:
+      - service: elasticsearch
+  file.replace:
+    - pattern: ^-Xms.*$
+    - repl: -Xmx{{ salt['pillar.get']('elasticsearch:jvm_heapsize', "2g") }}
+    - prepend_if_not_found: true
+    - watch_in:
+      - service: elasticsearch

@@ -25,12 +25,3 @@ elasticsearch_cfg:
     - makedirs: True
 {% endif %}
 {% endfor %}
-
-
-/etc/elasticsearch/jvm.options:
-  file.replace:
-    - pattern: ^-Xms.*$
-    - repl: -Xms{{ salt['pillar.get']('elasticsearch:jvm_heapsize', "2g") }}
-    - prepend_if_not_found: true
-    - watch_in:
-      - service: elasticsearch
